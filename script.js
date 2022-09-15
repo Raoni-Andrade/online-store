@@ -13,6 +13,8 @@
 
 // Fique a vontade para modificar o código já escrito e criar suas próprias funções!
 
+const listaCart = document.querySelector('.cart__items');
+
 /**
  * Função responsável por criar e retornar o elemento de imagem do produto.
  * @param {string} imageSource - URL da imagem.
@@ -67,8 +69,9 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
  * @returns {string} ID do produto.
  */
 
-const cartItemClickListener = () => {
+const cartItemClickListener = (itemNoCarrinho) => {
   // ESSA FUNÇÃO TIRA O ITEM DO CARRINHO DE COMPRAS
+  listaCart.removeChild(itemNoCarrinho.target);
 };
 
 /**
@@ -84,7 +87,6 @@ const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
-  const listaCart = document.querySelector('.cart__items');
   listaCart.appendChild(li);
   li.addEventListener('click', cartItemClickListener);
   return li;
@@ -93,10 +95,9 @@ const createCartItemElement = ({ id, title, price }) => {
 const getIdFromProductItem = (product) => product.querySelector('span.item_id').innerText;
 
 const cartItem = async (id) => {
-  const cartList = document.querySelector('.cart__items');
   const itemAdded = await fetchItem(id);
   const itemOnTheCart = createCartItemElement(itemAdded);
-  cartList.appendChild(itemOnTheCart);
+  listaCart.appendChild(itemOnTheCart);
 };
 
 const showProducts = async () => {
@@ -127,5 +128,5 @@ const showProducts = async () => {
 window.onload = () => {
   showProducts();
   // cartItem();
-  addToCart();
+  // addToCart();
 };
