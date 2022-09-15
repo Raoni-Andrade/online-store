@@ -1,6 +1,12 @@
 // Esse tipo de comentário que estão antes de todas as funções são chamados de JSdoc,
 // experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições!
 
+// const { fetchItem } = require("./helpers/fetchItem");
+
+// const { fetchItem } = require("./helpers/fetchItem");
+
+// const { id } = require("./mocks/item");
+
 // const { fetchItem } = require('./helpers/fetchItem');
 
 // const { fetchProducts } = require('./helpers/fetchProducts');
@@ -39,6 +45,7 @@ const createCustomElement = (element, className, innerText) => {
  * @param {string} product.id - ID do produto.
  * @param {string} product.title - Título do produto.
  * @param {string} product.thumbnail - URL da imagem do produto.
+ * @param {string} product.price - Preço do produto.
  * @returns {Element} Elemento de produto.
  */
 const createProductItemElement = ({ id, title, thumbnail }) => {
@@ -49,18 +56,9 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
   section.appendChild(createCustomElement('span', 'item__title', title));
   section.appendChild(createProductImageElement(thumbnail));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  // section.appendChild(createCustomElement('span', 'item_price', price));
 
   return section;
-};
-
-const showProducts = async () => {
-  const productsList = document.querySelector('.items');
-  const computers = await fetchProducts('computador');
-
-  computers.forEach((product) => {
-    const newProduct = createProductItemElement(product);
-    productsList.appendChild(newProduct);
-  });
 };
 
 /**
@@ -68,8 +66,10 @@ const showProducts = async () => {
  * @param {Element} product - Elemento do produto.
  * @returns {string} ID do produto.
  */
-// const getIdFromProductItem = (product) =>
-//   product.querySelector('span.id').innerText;
+
+const cartItemClickListener = () => {
+  // ESSA FUNÇÃO TIRA O ITEM DO CARRINHO DE COMPRAS
+};
 
 /**
  * Função responsável por criar e retornar um item do carrinho.
@@ -79,24 +79,53 @@ const showProducts = async () => {
  * @param {string} product.price - Preço do produto.
  * @returns {Element} Elemento de um item do carrinho.
  */
+
 const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
+  const listaCart = document.querySelector('.cart__items');
+  listaCart.appendChild(li);
   li.addEventListener('click', cartItemClickListener);
   return li;
 };
 
-const cartItem = async () => {
-  const cartList = document.querySelector('.cart__items');
-  const fetching = await fetchItem('MLB1341706310');
+const getIdFromProductItem = (product) => product.querySelector('span.item_id').innerText;
 
-  const newItem = createCartItemElement(fetching);
-    console.log('NEW ITEM -> ', newItem);
-    cartList.appendChild(newItem);
+const cartItem = async (id) => {
+  const cartList = document.querySelector('.cart__items');
+  const itemAdded = await fetchItem(id);
+  const itemOnTheCart = createCartItemElement(itemAdded);
+  cartList.appendChild(itemOnTheCart);
 };
+
+const showProducts = async () => {
+  const productsList = document.querySelector('.items');
+  const computers = await fetchProducts('computador');
+
+  computers.forEach((product) => {
+    const newProduct = createProductItemElement(product);
+    productsList.appendChild(newProduct);
+    newProduct.querySelector('button.item__add').addEventListener('click', () => {
+      const itemId = getIdFromProductItem(newProduct);
+      cartItem(itemId);
+  });
+  });
+};
+
+// const addToCart = () => {
+//   const bigSection = document.querySelector('.items');
+//   const sections = document.getElementsByClassName('item');
+//   const btn = document.getElementsByClassName('item__add');
+  // const sections = (bigSection).childNodes;
+  // console.log(sections);
+  // console.log(bigSection);
+  // console.log(btn);
+  // const itemId = element.target.parentNode.firstChild.innerText;
+// };
 
 window.onload = () => {
   showProducts();
-  cartItem();
+  // cartItem();
+  addToCart();
 };
