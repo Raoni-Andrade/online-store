@@ -15,6 +15,7 @@
 
 // Fique a vontade para modificar o código já escrito e criar suas próprias funções!
 const listaCart = document.querySelector('.cart__items');
+const productsList = document.querySelector('.items');
 
 /**
  * Função responsável por criar e retornar o elemento de imagem do produto.
@@ -137,7 +138,7 @@ const getLocalStorage = () => {
 };
 
 const showProducts = async () => {
-  const productsList = document.querySelector('.items');
+  // const productsList = document.querySelector('.items');
   const computers = await fetchProducts('computador');
   removeLoading();
 

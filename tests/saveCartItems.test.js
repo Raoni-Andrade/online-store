@@ -1,6 +1,6 @@
 const localStorageSimulator = require('../mocks/localStorageSimulator');
 const saveCartItems = require('../helpers/saveCartItems');
-const { expect } = require('chai');
+// const { expect } = require('chai');
 
 localStorageSimulator('setItem');
 
