@@ -125,7 +125,7 @@ const addToCart = async (id) => {
   const itemAdded = await fetchItem(id);
   const itemOnTheCart = createCartItemElement(itemAdded);
   listaCart.appendChild(itemOnTheCart);
-  totalPrice += parseFloat(itemAdded.price);
+  totalPrice += itemAdded.price;
   priceUpdated();
 };
 
@@ -185,6 +185,7 @@ window.onload = () => {
 
   const savedListaCart = getSavedCartItems('cartItems');
   listaCart.innerHTML = savedListaCart;
+  listaCart.childNodes.forEach((child) => child.addEventListener('click', cartItemClickListener));
 
   const savedPrice = getSavedPrice() || 0;
   totalPrice = parseFloat(savedPrice);
