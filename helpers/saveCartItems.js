@@ -1,7 +1,6 @@
 const saveCartItems = (cartItem) => {
   // seu código aqui
-  const listaCart = cartItem.parentElement;
-  localStorage.setItem('cartItems', listaCart.innerHTML);
+  localStorage.setItem('cartItems', cartItem.innerHTML);
 };
 
 if (typeof module !== 'undefined') {
