@@ -1,7 +1,7 @@
 // Esse tipo de comentário que estão antes de todas as funções são chamados de JSdoc,
 // experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições!
 
-const saveCartItems = require("./helpers/saveCartItems");
+// const saveCartItems = require("./helpers/saveCartItems");
 
 // const { fetchItem } = require("./helpers/fetchItem");
 
@@ -97,12 +97,34 @@ const createCartItemElement = ({ id, title, price }) => {
 
 const getIdFromProductItem = (product) => product.querySelector('span.item_id').innerText;
 
+const addLoading = () => {
+  const loading = document.createElement('p');
+  loading.className = 'loading';
+  loading.innerHTML = 'carregando...';
+  productsList.appendChild(loading);
+};
+
+const removeLoading = async () => {
+  productsList.firstChild.remove();
+};
+
 const addToCart = async (id) => {
   const itemAdded = await fetchItem(id);
   const itemOnTheCart = createCartItemElement(itemAdded);
   listaCart.appendChild(itemOnTheCart);
   saveCartItems(cartItem);
 };
+
+const cleanCart = () => {
+  const cleanButton = document.querySelector('.empty-cart');
+  cleanButton.addEventListener('click', () => {
+    for (let index = listaCart.childNodes.length - 1; index >= 0; index -= 1) {
+      listaCart.childNodes[index].remove();
+    }
+  });
+};
+
+cleanCart();
 
 const addToLocalStorage = () => {
   localStorage.setItem(itemAdded, listaCart.innerHTML);
@@ -117,6 +139,7 @@ const getLocalStorage = () => {
 const showProducts = async () => {
   const productsList = document.querySelector('.items');
   const computers = await fetchProducts('computador');
+  removeLoading();
 
   computers.forEach((product) => {
     const newProduct = createProductItemElement(product);
@@ -145,4 +168,8 @@ window.onload = () => {
   // cartItem();
   // addToCart();
   getLocalStorage();
+  addLoading();
+
+  const savedListaCart = getSavedCartItems('cartItems');
+  listaCart.innerHTML = savedListaCart;
 };
