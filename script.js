@@ -5,17 +5,15 @@
 
 // const { fetchItem } = require("./helpers/fetchItem");
 
-// const { fetchItem } = require("./helpers/fetchItem");
-
 // const { id } = require("./mocks/item");
-
-// const { fetchItem } = require('./helpers/fetchItem');
 
 // const { fetchProducts } = require('./helpers/fetchProducts');
 
 // Fique a vontade para modificar o código já escrito e criar suas próprias funções!
 const listaCart = document.querySelector('.cart__items');
 const productsList = document.querySelector('.items');
+const totalPricer = document.querySelector('.total-price');
+let totalPrice = 0;
 
 /**
  * Função responsável por criar e retornar o elemento de imagem do produto.
@@ -65,18 +63,32 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
   return section;
 };
 
+const savesPrice = (price) => {
+  localStorage.setItem('totalPriceSaved', JSON.stringify(price));
+};
+
+const priceUpdated = () => {
+  totalPricer.innerHTML = totalPrice.toFixed(2);
+  savesPrice(totalPrice);
+  saveCartItems(listaCart);
+};
+
 /**
  * Função que recupera o ID do produto passado como parâmetro.
  * @param {Element} product - Elemento do produto.
  * @returns {string} ID do produto.
  */
 
-const cartItemClickListener = (event) => {
+const cartItemClickListener = async (event) => {
   // ESSA FUNÇÃO TIRA O ITEM DO CARRINHO DE COMPRAS
   const cartItem = event.target;
-  listaCart.removeChild(cartItem);
+  const removedItem = await fetchItem(cartItem.id);
+  totalPrice -= removedItem.price;
   // console.log(cartItem.parentElement);
 };
+
+priceUpdated();
+listaCart.removeChild(cartItem);
 
 /**
  * Função responsável por criar e retornar um item do carrinho.
@@ -91,6 +103,7 @@ const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
+  li.id = `${id}`;
   listaCart.appendChild(li);
   li.addEventListener('click', cartItemClickListener); 
   return li;
@@ -113,7 +126,8 @@ const addToCart = async (id) => {
   const itemAdded = await fetchItem(id);
   const itemOnTheCart = createCartItemElement(itemAdded);
   listaCart.appendChild(itemOnTheCart);
-  saveCartItems(cartItem);
+  totalPrice += parseFloat(itemAdded.price);
+  priceUpdated();
 };
 
 const cleanCart = () => {
@@ -122,14 +136,16 @@ const cleanCart = () => {
     for (let index = listaCart.childNodes.length - 1; index >= 0; index -= 1) {
       listaCart.childNodes[index].remove();
     }
+    totalPrice = 0;
+    priceUpdated();
   });
 };
 
 cleanCart();
 
-const addToLocalStorage = () => {
-  localStorage.setItem(itemAdded, listaCart.innerHTML);
-  console.log('ESSE É A LISTA DO CARRIN -> ', listaCart.innerHTML);
+const getSavedPrice = () => {
+  const savedPrice = localStorage.getItem('totalPriceSaved');
+  return savedPrice;
 };
 
 const getLocalStorage = () => {
@@ -145,10 +161,9 @@ const showProducts = async () => {
   computers.forEach((product) => {
     const newProduct = createProductItemElement(product);
     productsList.appendChild(newProduct);
-    newProduct.querySelector('button.item__add').addEventListener('click', () => {
+    newProduct.querySelector('button.item__add').addEventListener('click', async () => {
       const itemId = getIdFromProductItem(newProduct);
-      addToCart(itemId);
-      addToLocalStorage();
+      await addToCart(itemId);
   });
   });
 };
@@ -166,11 +181,13 @@ const showProducts = async () => {
 
 window.onload = () => {
   showProducts();
-  // cartItem();
-  // addToCart();
-  getLocalStorage();
   addLoading();
+  totalPricer.innerHTML = '';
 
   const savedListaCart = getSavedCartItems('cartItems');
   listaCart.innerHTML = savedListaCart;
+
+  const savedPrice = getSavedPrice() || 0;
+  totalPrice = parseFloat(savedPrice);
+  totalPricer.innerHTML = totalPrice;
 };
