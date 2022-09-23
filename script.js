@@ -85,10 +85,9 @@ const cartItemClickListener = async (event) => {
   const removedItem = await fetchItem(cartItem.id);
   totalPrice -= removedItem.price;
   // console.log(cartItem.parentElement);
+  priceUpdated();
+  listaCart.removeChild(cartItem);
 };
-
-priceUpdated();
-listaCart.removeChild(cartItem);
 
 /**
  * Função responsável por criar e retornar um item do carrinho.
