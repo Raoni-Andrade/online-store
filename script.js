@@ -148,10 +148,10 @@ const getSavedPrice = () => {
   return savedPrice;
 };
 
-const getLocalStorage = () => {
-  const saved = localStorage.getItem('itemAdded');
-  console.log(saved);
-};
+// const getLocalStorage = () => {
+//   const saved = localStorage.getItem('itemAdded');
+//   console.log(saved);
+// };
 
 const showProducts = async () => {
   // const productsList = document.querySelector('.items');
