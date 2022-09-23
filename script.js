@@ -12,7 +12,6 @@
 // const { fetchProducts } = require('./helpers/fetchProducts');
 
 // Fique a vontade para modificar o código já escrito e criar suas próprias funções!
-
 const listaCart = document.querySelector('.cart__items');
 
 /**
@@ -88,16 +87,26 @@ const createCartItemElement = ({ id, title, price }) => {
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
   listaCart.appendChild(li);
-  li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', cartItemClickListener); 
   return li;
 };
 
 const getIdFromProductItem = (product) => product.querySelector('span.item_id').innerText;
 
-const cartItem = async (id) => {
+const addToCart = async (id) => {
   const itemAdded = await fetchItem(id);
   const itemOnTheCart = createCartItemElement(itemAdded);
   listaCart.appendChild(itemOnTheCart);
+};
+
+const addToLocalStorage = () => {
+  localStorage.setItem(itemAdded, listaCart.innerHTML);
+  console.log('ESSE É A LISTA DO CARRIN -> ', listaCart.innerHTML);
+};
+
+const getLocalStorage = () => {
+  const saved = localStorage.getItem('itemAdded');
+  console.log(saved);
 };
 
 const showProducts = async () => {
@@ -109,7 +118,8 @@ const showProducts = async () => {
     productsList.appendChild(newProduct);
     newProduct.querySelector('button.item__add').addEventListener('click', () => {
       const itemId = getIdFromProductItem(newProduct);
-      cartItem(itemId);
+      addToCart(itemId);
+      addToLocalStorage();
   });
   });
 };
@@ -129,4 +139,5 @@ window.onload = () => {
   showProducts();
   // cartItem();
   // addToCart();
+  getLocalStorage();
 };
