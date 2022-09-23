@@ -1,6 +1,8 @@
 // Esse tipo de comentário que estão antes de todas as funções são chamados de JSdoc,
 // experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições!
 
+const saveCartItems = require("./helpers/saveCartItems");
+
 // const { fetchItem } = require("./helpers/fetchItem");
 
 // const { fetchItem } = require("./helpers/fetchItem");
@@ -68,9 +70,11 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
  * @returns {string} ID do produto.
  */
 
-const cartItemClickListener = (itemNoCarrinho) => {
+const cartItemClickListener = (event) => {
   // ESSA FUNÇÃO TIRA O ITEM DO CARRINHO DE COMPRAS
-  listaCart.removeChild(itemNoCarrinho.target);
+  const cartItem = event.target;
+  listaCart.removeChild(cartItem);
+  // console.log(cartItem.parentElement);
 };
 
 /**
@@ -97,6 +101,7 @@ const addToCart = async (id) => {
   const itemAdded = await fetchItem(id);
   const itemOnTheCart = createCartItemElement(itemAdded);
   listaCart.appendChild(itemOnTheCart);
+  saveCartItems(cartItem);
 };
 
 const addToLocalStorage = () => {
