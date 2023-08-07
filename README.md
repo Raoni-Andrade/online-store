@@ -1,13 +1,38 @@
-# :construction: README customizado em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto no qual você pode customizar e reutilizar todas as vezes que for executar o trybe-publisher.
+<h1>Online Store</h1>  
 
-Para deixá-lo com a sua cara, basta alterar o seguinte arquivo da sua máquina: ~/.student-repo-publisher/custom/_NEW_README.md
+<div>
+<h2>:information_source: About: </h2>
+<p>An online store, which uses API to consult prices and products. </p>
+</div>
 
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+<h2>:rocket: Available features: </h2>
+
+<ul> 
+<li>Filter by name; </li>
+<li>Add products to shopping cart; </li>
+<li>Get updated value of the total purchase; </li>
+
+</ul>
+
+<h2>💻 Technologies used: </h2>
+
+<ul>
+<li>API Requests; </li>
+<li>Test Driven Development; </li>
+<li>CSS; </li>
+<li>JS; </li>
+</ul>
+
+</br>
+
+<h2>:eye_speech_bubble: Preview: </h2>
+
+![Screenshot](prototipo.gif)
+
+
+<h4>Acknowledgements: </h4>
+
+- [Trybe Course](https://www.betrybe.com/)
+<br/>
+
+<h5> Folder "Services" Created By Trybe. </h5>
