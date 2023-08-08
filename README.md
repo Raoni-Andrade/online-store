@@ -1,4 +1,4 @@
-<h1>Online Store</h1>  
+<h1>Online Store 🛒</h1>  
 
 <div>
 <h2>:information_source: About: </h2>
