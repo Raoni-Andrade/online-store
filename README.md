@@ -21,6 +21,7 @@
 <li>Test Driven Development; </li>
 <li>CSS; </li>
 <li>JS; </li>
+<li>HTML; </li>
 </ul>
 
 </br>
